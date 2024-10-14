@@ -55,12 +55,13 @@ public class EnemyGenerator : MonoBehaviour
 
         int lives = playerScript.player_lives;
         int liveChange = enemyScript.lifeChanges;
-        lives += liveChange;
+        lives -= liveChange;
         print(lives);
 
         if (lives <= 0)
         {
             SceneManager.LoadScene("GameOver");
+
         }
         playerScript.player_lives = lives;
         Destroy(enemyScript.gameObject);

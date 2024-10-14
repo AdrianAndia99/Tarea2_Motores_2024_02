@@ -10,9 +10,10 @@ public class PlayerMovement : MonoBehaviour
     private float limitSuperior;
     private float limitInferior;
     public int player_lives = 3;
-    public AudioSource AudioSource1;
-    public AudioSource AudioSource2;
-    public AudioSource AudioSource3;
+    [SerializeField] private AudioClipSO Candy;
+    [SerializeField] private AudioClipSO Enemy;
+    [SerializeField] private AudioClipSO Coffee;
+    [SerializeField] private AudioClipSO Mushroom;
     void Start()
     {
         myRB = GetComponent<Rigidbody2D>();
@@ -31,18 +32,23 @@ public class PlayerMovement : MonoBehaviour
         if (other.tag == "Candy")
         {
             CandyGenerator.instance.ManageCandy(other.gameObject.GetComponent<CandyController>(), this);
-            AudioSource2.Play();
+            Candy.PlayOneShoot();
         }
         if (other.tag == "Enemy")
         {
             EnemyGenerator.instance.ManageEnemy(other.gameObject.GetComponent<EnemyController>(), this);
-            AudioSource1.Play();
+            Enemy.PlayOneShoot();
 
         }
-        if (other.tag == "Power")
+        if (other.tag == "Coffee")
         {
             PowerGenerator.instance.ManagePower(other.gameObject.GetComponent<PowerController>(), this);
-            AudioSource3.Play();
+            Coffee.PlayOneShoot();
+        }
+        if (other.tag == "Mushroom")
+        {
+            PowerGenerator.instance.ManagePower(other.gameObject.GetComponent<PowerController>(), this);
+            Mushroom.PlayOneShoot();
         }
     }
 }

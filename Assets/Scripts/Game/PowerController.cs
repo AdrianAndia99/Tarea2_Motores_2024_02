@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PowerController : MonoBehaviour
 {
+    public int speed;
     void Update()
     {
         if (transform.position.x <= -Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x)

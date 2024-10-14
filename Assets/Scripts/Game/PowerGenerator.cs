@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PowerGenerator : MonoBehaviour
 {
@@ -47,12 +48,27 @@ public class PowerGenerator : MonoBehaviour
 
     public void ManagePower(PowerController powerScript, PlayerMovement playerScript = null)
     {
+        if (powerScript == null)
+        {
+            Debug.LogError("PowerController script is null.");
+            return;
+        }
+
         if (playerScript == null)
         {
             Destroy(powerScript.gameObject);
             return;
         }
 
+        int lives = playerScript.player_lives;
+        print(lives);
+
+        if (lives <= 0)
+        {
+            SceneManager.LoadScene("GameOver");
+        }
+
+        playerScript.player_lives = lives;
         Destroy(powerScript.gameObject);
     }
 }

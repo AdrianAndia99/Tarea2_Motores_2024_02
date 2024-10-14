@@ -7,6 +7,7 @@ public class Music : MonoBehaviour
 {
     [SerializeField] private AudioClipSO clipMenu;
     [SerializeField] private AudioClipSO clipGame;
+    [SerializeField] private AudioClipSO clipOver;
 
     void Start()
     {
@@ -19,6 +20,10 @@ public class Music : MonoBehaviour
         else if(currentScene == "Game")
         {
             clipGame.PlayLoop();
+        }
+        else if(currentScene == "GameOver")
+        {
+            clipOver.PlayOneShoot();
         }
     }
 }
