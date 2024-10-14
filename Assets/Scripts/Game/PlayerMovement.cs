@@ -1,48 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public KeyCode up;
-    public KeyCode down;
     private Rigidbody2D myRB;
-    [SerializeField]
-    private float speed;
+    [SerializeField] private float speed;
     private float limitSuperior;
     private float limitInferior;
-    public int player_lives = 4;
-    // Start is called before the first frame update
+    public int player_lives = 3;
+    public AudioSource AudioSource1;
+    public AudioSource AudioSource2;
+    public AudioSource AudioSource3;
     void Start()
     {
-        if (up == KeyCode.None) up = KeyCode.UpArrow;
-        if (down == KeyCode.None) down = KeyCode.DownArrow;
         myRB = GetComponent<Rigidbody2D>();
-        SetMinMax();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Movimiento(InputAction.CallbackContext context)
     {
-        if (Input.GetKey(up) && transform.position.y < limitSuperior)
-        {
-            myRB.velocity = new Vector2(0f, speed);
-        }
-        else if (Input.GetKey(down) && transform.position.y > limitInferior)
-        {
-            myRB.velocity = new Vector2(0f, -speed);
-        }
-        else
-        {
-            myRB.velocity = Vector2.zero;
-        }
-    }
+        Vector2 input = context.ReadValue<Vector2>();
 
-    void SetMinMax()
-    {
-        Vector3 bounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
-        limitInferior = -bounds.y;
-        limitSuperior = bounds.y;
+        myRB.velocity = new Vector2(0, input.y * speed);
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -50,6 +31,18 @@ public class PlayerMovement : MonoBehaviour
         if (other.tag == "Candy")
         {
             CandyGenerator.instance.ManageCandy(other.gameObject.GetComponent<CandyController>(), this);
+            AudioSource2.Play();
+        }
+        if (other.tag == "Enemy")
+        {
+            EnemyGenerator.instance.ManageEnemy(other.gameObject.GetComponent<EnemyController>(), this);
+            AudioSource1.Play();
+
+        }
+        if (other.tag == "Power")
+        {
+            PowerGenerator.instance.ManagePower(other.gameObject.GetComponent<PowerController>(), this);
+            AudioSource3.Play();
         }
     }
 }
